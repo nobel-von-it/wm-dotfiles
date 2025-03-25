@@ -1,0 +1,23 @@
+#!/bin/sh
+
+set -e
+
+PROGRAMS=("dmenu" "dwm" "slstatus" "st")
+
+
+echo "Starting programs..."
+
+for dir in "${PROGRAMS[@]}"; do
+    if [ -d "$dir" ]; then
+        echo "Installing $dir..."
+        cd "$dir"
+        sudo make install clean
+        cd ..
+        echo "Installed $dir"
+    else
+        echo "$dir does not exist"
+    fi
+done
+
+
+echo "Done!"

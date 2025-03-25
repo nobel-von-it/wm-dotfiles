@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -e
+
+echo "Linking config files..."
+
+LINKS=(
+    "$HOME/arch-setup/wm-dotfiles/.tmux.conf:$HOME/.tmux.conf"
+    "$HOME/arch-setup/wm-dotfiles/.tmux:$HOME/.tmux"
+)
+
+for link in "${LINKS[@]}"; do
+    src=$(echo "$link" | cut -d ':' -f 1)
+    dst=$(echo "$link" | cut -d ':' -f 2)
+
+    mkdir -p "$(dirname "$dst")"
+
+    if [ -f "$dst" ] || [ -L "$dst" ]; then
+        echo "Backing up $dst..."
+        mv "$dst" "${dst}.bak"
+    fi
+
+    ln -s "$src" "$dst"
+    echo "Linked $src -> $dst"
+done
