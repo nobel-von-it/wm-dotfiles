@@ -80,8 +80,7 @@ static const char font[] = "JetBrainsMonoNerdFont:size=10";
 //                                 printf \"${volume}\"; \
 //                             else printf \"Off\"; \
 //                             fi";
-static const char vol[] =
-    "muted=`wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $3;}'`; \
+static const char vol[] = "muted=`wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $3;}'`; \
      volume=`wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print $2;}'`; \
      if [ -z ${muted} ]; then \
          printf \"$(awk 'BEGIN {printf \"%.0f%%%%\", '$volume' * 100}')\"; \
@@ -90,10 +89,9 @@ static const char vol[] =
 
 static const struct arg args[] = {
     /* function format          argument */
-    {disk_free, "| DS: %s ", "/"},        {ram_used, "| M: %s ", NULL},
-    {ram_perc, "(%s%%) ", NULL},          {netspeed_rx, "| N: %s ", "wlp1s0"},
-    {battery_perc, "| B: %s%% ", "BAT0"}, {battery_state, "(%s) ", "BAT0"},
-    {run_command, "| V: %s ", vol},
+    {disk_free, "| DS: %s ", "/"},          {ram_used, "| M: %s ", NULL},      {ram_perc, "(%s%%) ", NULL},
+    {netspeed_rx, "| N: w: %s ", "wlp1s0"}, {netspeed_rx, "e: %s ", "enp2s0"}, {battery_perc, "| B: %s%% ", "BAT0"},
+    {battery_state, "(%s) ", "BAT0"},       {run_command, "| V: %s ", vol},
     /*{datetime, "| T: %s ", "%a %b %d %R"}, /* Date time with this format:
        Day*/
     /*name YYYY - MM - DD 18 : 00 : 00 * /*/
