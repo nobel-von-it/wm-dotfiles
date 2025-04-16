@@ -1,0 +1,1 @@
+/home/nerd/.tmux
