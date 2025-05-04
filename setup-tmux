@@ -39,9 +39,9 @@ read -r ans2
 
 if [[ "$ans2" = "y" ]]
 then
-    echo "Skip backing up the old files, only delete"
-else
     echo "Backing up all files"
+else
+    echo "Skip backing up the old files, only delete"
 fi
 
 LINKS=(
