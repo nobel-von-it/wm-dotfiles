@@ -1,12 +1,52 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
 
+DEFAULT_PATH="$HOME/Downloads/Git/wm-dotfiles"
+LINKS_PATH="$DEFAULT_PATH"
+
+# Use this path after creating links
+TPM_PATH="$HOME/.tmux/plugins/tpm"
+GIT_TPM_PATH="https://github.com/tmux-plugins/tpm"
+
+if [[ -d "$TPM_PATH" ]]
+then
+    # -f for a git non-empty directory
+    rm -rf "$TPM_PATH"
+fi
+
+if [ -z "$1" ]
+then
+    echo "Do you want to use default path ($DEFAULT_PATH) y/n?"
+    read -r ans1
+
+    if [[ !"$ans1" = "y" ]]
+    then 
+        echo "Provide path to linking files"
+        echo "Example:"
+        echo "  ./setup-tmux $DEFAULT_PATH"
+        exit 1
+    fi
+else 
+    LINKS_PATH=$1
+fi
+
+
 echo "Linking config files..."
 
+echo "Create .bak files? (y/n)"
+read -r ans2
+
+if [[ "$ans2" = "y" ]]
+then
+    echo "Skip backing up the old files, only delete"
+else
+    echo "Backing up all files"
+fi
+
 LINKS=(
-    "$HOME/arch-setup/wm-dotfiles/.tmux.conf:$HOME/.tmux.conf"
-    "$HOME/arch-setup/wm-dotfiles/.tmux:$HOME/.tmux"
+    "$LINKS_PATH/.tmux.conf:$HOME/.tmux.conf"
+    "$LINKS_PATH/.tmux:$HOME/.tmux"
 )
 
 for link in "${LINKS[@]}"; do
@@ -16,10 +56,18 @@ for link in "${LINKS[@]}"; do
     mkdir -p "$(dirname "$dst")"
 
     if [ -f "$dst" ] || [ -L "$dst" ]; then
-        echo "Backing up $dst..."
-        mv "$dst" "${dst}.bak"
+        if [[ "$ans2" = "y" ]]
+        then
+            mv "$dst" "${dst}.bak"
+        else
+            rm "$dst"
+        fi
     fi
 
     ln -s "$src" "$dst"
     echo "Linked $src -> $dst"
 done
+
+echo "Downloading tpm..."
+
+git clone "$GIT_TPM_PATH" "$TPM_PATH"

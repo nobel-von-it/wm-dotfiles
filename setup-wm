@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Simple change dirs and compile projects
+# Makefile containes moving to system bin 
+
 set -e
 
 PROGRAMS=("dmenu" "dwm" "slstatus" "st")
@@ -7,8 +10,10 @@ PROGRAMS=("dmenu" "dwm" "slstatus" "st")
 
 echo "Starting programs..."
 
-for dir in "${PROGRAMS[@]}"; do
-    if [ -d "$dir" ]; then
+for dir in "${PROGRAMS[@]}"
+do
+    if [ -d "$dir" ]
+    then
         echo "Installing $dir..."
         cd "$dir"
         sudo make install clean
@@ -18,6 +23,5 @@ for dir in "${PROGRAMS[@]}"; do
         echo "$dir does not exist"
     fi
 done
-
 
 echo "Done!"
