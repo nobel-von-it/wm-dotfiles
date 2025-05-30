@@ -13,6 +13,8 @@ if [[ -d "$TPM_PATH" ]]
 then
     # -f for a git non-empty directory
     rm -rf "$TPM_PATH"
+else 
+    mkdir -p "$TPM_PATH"
 fi
 
 if [ -z "$1" ]
@@ -46,7 +48,7 @@ fi
 
 LINKS=(
     "$LINKS_PATH/.tmux.conf:$HOME/.tmux.conf"
-    "$LINKS_PATH/.tmux:$HOME/.tmux"
+    # "$LINKS_PATH/.tmux:$HOME/.tmux"
 )
 
 for link in "${LINKS[@]}"; do
