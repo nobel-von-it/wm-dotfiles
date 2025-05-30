@@ -19,9 +19,7 @@ fi
 
 if [ -z "$1" ]
 then
-    echo "Do you want to use default path ($DEFAULT_PATH) y/n?"
-    read -r ans1
-
+    read -p "Do you want to use default path ($DEFAULT_PATH) y/n? " ans1
     if [[ !"$ans1" = "y" ]]
     then 
         echo "Provide path to linking files"
@@ -36,8 +34,7 @@ fi
 
 echo "Linking config files..."
 
-echo "Create .bak files? (y/n)"
-read -r ans2
+read -p "Create .bak files? (y/n) " ans2
 
 if [[ "$ans2" = "y" ]]
 then
@@ -73,3 +70,5 @@ done
 echo "Downloading tpm..."
 
 git clone "$GIT_TPM_PATH" "$TPM_PATH"
+
+echo "Done!"
